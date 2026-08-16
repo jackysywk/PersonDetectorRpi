@@ -1,0 +1,19 @@
+services:
+  detector:
+    build: .
+    container_name: pi-detector
+    ports:
+      - "8000:8000"
+    devices:
+      - /dev/video0:/dev/video0
+      - /dev/gpiochip0:/dev/gpiochip0
+    environment:
+      BUZZER_PIN: "17"
+      CONF_THRESHOLD: "0.5"
+      START_GRACE: "5"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
